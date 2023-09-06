@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <form>
+                <div class="display">
+                    <input type="text" placeholder="0" name="display" readonly id="display"/>
+                </div>
+                <div>
+                    <input type="button" value="AC" class="operator" id="clear">
+                    <input type="button" value="DEL" class="operator" id="delete">
+                    <input type="button" value="." class="operator" id="decimal">
+                    <input type="button" value="/" class="operator" id="divide">
+                </div>
+                <div>
+                    <input type="button" value="7" class="number" id="seven">
+                    <input type="button" value="8" class="number" id="eight">
+                    <input type="button" value="9" class="number" id="nine">
+                    <input type="button" value="*" class="operator" id="multiply">
+                </div>
+                <div>
+                    <input type="button" value="4" class="number" id="four">
+                    <input type="button" value="5" class="number" id="five">
+                    <input type="button" value="6" class="number" id="six">
+                    <input type="button" value="-" class="operator" id="subtract">
+                </div>
+                <div>
+                    <input type="button" value="1" class="number" id="one">
+                    <input type="button" value="2" class="number" id="two">
+                    <input type="button" value="3" class="number" id="three">
+                    <input type="button" value="+" class="operator" id="add">
+                </div>
+                <div>
+                    <input type="button" value="00" class="number" id="double-zero">
+                    <input type="button" value="0" class="number" id="zero">
+                    <input class="equal operator" type="button" value="=" id="equals">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+     
+        const display = document.getElementById("display");
+        const clearButton = document.getElementById("clear");
+        const deleteButton = document.getElementById("delete");
+        const decimalButton = document.getElementById("decimal");
+        const divideButton = document.getElementById("divide");
+        const numberButtons = document.querySelectorAll(".number");
+        const operatorButtons = document.querySelectorAll(".operator");
+        const equalsButton = document.getElementById("equals");
+
+      
+        let currentInput = "";
+
+        
+        numberButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                currentInput += button.value;
+                display.value = currentInput;
+            });
+        });
+
+
+        decimalButton.addEventListener("click", () => {
+            if (!currentInput.includes(".")) {
+                currentInput += ".";
+                display.value = currentInput;
+            }
+        });
+
+     
+        operatorButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                currentInput += button.value;
+                display.value = currentInput;
+            });
+        });
+
+
+        clearButton.addEventListener("click", () => {
+            currentInput = "";
+            display.value = "0";
+        });
+
+      
+        deleteButton.addEventListener("click", () => {
+            currentInput = currentInput.slice(0, -1);
+            display.value = currentInput;
+        });
+
+
+        equalsButton.addEventListener("click", () => {
+            const operators = ['+', '-', '*', '/'];
+            let result;
+            for (let operator of operators) {
+                const parts = currentInput.split(operator);
+                if (parts.length === 2) {
+                    const num1 = parseFloat(parts[0]);
+                    const num2 = parseFloat(parts[1]);
+                    switch (operator) {
+                        case '+':
+                            result = num1 + num2;
+                            break;
+                        case '-':
+                            result = num1 - num2;
+                            break;
+                        case '*':
+                            result = num1 * num2;
+                            break;
+                        case '/':
+                            result = num1 / num2;
+                            break;
+                        default:
+                            result = "Error";
+                            break;
+                    }
+                    currentInput = result.toString();
+                    display.value = currentInput;
+                    break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
